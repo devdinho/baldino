@@ -11,6 +11,9 @@ Crie um arquivo `.env` na raiz do projeto com as credenciais de acesso:
 ```env
 MINIO_ROOT_USER=admin
 MINIO_ROOT_PASSWORD=admin123
+MINIO_SERVER_URL=http://localhost:9000/
+MINIO_BROWSER_REDIRECT_URL=http://localhost:9001/console
+
 ```
 
 ### 2. Suba o serviço
