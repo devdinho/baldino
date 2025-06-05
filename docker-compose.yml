@@ -1,0 +1,17 @@
+services:
+  minio:
+    image: minio/minio:RELEASE.2025-05-24T17-08-30Z-cpuv1
+    container_name: baldino
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: server /data --console-address ":9001"
+    volumes:
+      - baldino:/data
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  baldino:
