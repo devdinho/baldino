@@ -1,0 +1,41 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy application via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_IP }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSKEY }}
+          port: 22
+          script: |
+            cd ${{ secrets.VM_PWD }}
+
+            git checkout .
+
+            git pull origin main -f
+
+            rm -f .env
+
+            echo "MINIO_ROOT_USER=${{ secrets.MINIO_ROOT_USER }}" >> .env
+            echo "MINIO_ROOT_PASSWORD=${{ secrets.MINIO_ROOT_PASSWORD }}" >> .env
+            echo "MINIO_EAR_USER=${{ secrets.MINIO_EAR_USER }}" >> .env
+            echo "MINIO_EAR_PASSWORD=${{ secrets.MINIO_EAR_PASSWORD }}" >> .env
+            echo "MINIO_PUBLIC_BUCKET=${{ secrets.MINIO_PUBLIC_BUCKET }}" >> .env
+            echo "MINIO_MAX_REQUEST_SIZE=${{ secrets.MINIO_MAX_REQUEST_SIZE }}" >> .env
+
+            docker compose up --build -d
+
+            sudo systemctl restart nginx
