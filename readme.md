@@ -11,8 +11,10 @@ Crie um arquivo `.env` na raiz do projeto com as credenciais de acesso:
 ```env
 MINIO_ROOT_USER=admin
 MINIO_ROOT_PASSWORD=admin123
-MINIO_SERVER_URL=http://localhost:9000/
-MINIO_BROWSER_REDIRECT_URL=http://localhost:9001/console
+MINIO_EAR_USER=public
+MINIO_EAR_PASSWORD=public123
+MINIO_PUBLIC_BUCKET=baldino-public
+MINIO_MAX_REQUEST_SIZE=10737418240 # 10 GB
 
 ```
 
