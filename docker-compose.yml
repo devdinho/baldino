@@ -1,6 +1,6 @@
 services:
   minio:
-    image: minio/minio:RELEASE.2025-05-24T17-08-30Z-cpuv1
+    image: minio/minio:RELEASE.2025-07-18T21-56-31Z-cpuv1
     container_name: baldino
     ports:
       - 9000:9000
@@ -20,7 +20,7 @@ services:
 
         mc alias set local http://localhost:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD"
 
-        mc admin policy add local readonly /init/readonly-policy.json || true
+        mc admin policy create local readonly /init/readonly-policy.json || true
 
         mc admin user add local "$$MINIO_EAR_USER" "$$MINIO_EAR_PASSWORD" || true
         mc admin policy attach local readonly --user "$$MINIO_EAR_USER" || true
