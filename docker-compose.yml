@@ -28,8 +28,14 @@ services:
         mc ls local/$$MINIO_PUBLIC_BUCKET || mc mb local/$$MINIO_PUBLIC_BUCKET
         mc anonymous set download local/$$MINIO_PUBLIC_BUCKET
 
+        # Add SQS notifications for each environment
+        mc admin event add local/$$MINIO_PUBLIC_BUCKET arn:minio:sqs::dev || true
+        mc admin event add local/$$MINIO_PUBLIC_BUCKET arn:minio:sqs::staging || true
+        mc admin event add local/$$MINIO_PUBLIC_BUCKET arn:minio:sqs::prod || true
+
         wait
       '
+
 
 volumes:
   baldino:
